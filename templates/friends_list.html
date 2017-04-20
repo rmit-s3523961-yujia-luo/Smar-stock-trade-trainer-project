@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Leaderboard
+{% endblock %}
+
+{% block main %}
+<table>
+    <tr>
+        <th>
+            User
+        </th>
+        <th>
+            Cash
+        </th>
+        <th>
+            Assets
+        </th>
+        <th>
+            Net Worth
+        </th>
+
+        <th>
+            Add Friend
+        </th>
+
+        {% if current_username == "administrator" %}
+        <th>
+            Add Person(Admin)
+        </th>
+
+        <th>
+            Delete Person (Admin)
+        </th>
+     {% endif %}
+
+    </tr>
+    {% for user in leaders %}
+    <tr>
+
+        <td><a href="{{ url_for('profile') }}?user_id={{ user[3] }}">{{ user[0] }}</a></td>
+
+        <td>{{ usd(user[1]) }}</td>
+        <td>{{ usd(user[2]) }}</td>
+        <td>{{ usd(user[1] + user[2]) }}</td>
+
+        <td><a href="{{ url_for('like') }}?like_id={{ user[3] }}&from_id={{ current_userid }}">{{ user[0] }}</a></td>
+
+
+        {% if current_username == "administrator" %}
+
+        <td><a href="{{ url_for('add_user_info') }}">ADD</a></td>
+        <td><a href="{{ url_for('delete_user_info') }}?user_id={{ user[3] }}">DELETE</a></td>
+
+         {% endif %}
+
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
